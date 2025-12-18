@@ -5,8 +5,15 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Notifikasi', style: TextStyle(fontSize: 24))),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notifikasi'),
+        backgroundColor: const Color(0xFF006D34), // UIM Green
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(
+        child: Text('Notifikasi', style: TextStyle(fontSize: 24)),
+      ),
     );
   }
 }

@@ -5,8 +5,13 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Profil', style: TextStyle(fontSize: 24))),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profil'),
+        backgroundColor: const Color(0xFF006D34), // UIM Green
+        foregroundColor: Colors.white,
+      ),
+      body: const Center(child: Text('Profil', style: TextStyle(fontSize: 24))),
     );
   }
 }
