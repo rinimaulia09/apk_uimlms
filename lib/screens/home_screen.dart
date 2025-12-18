@@ -10,215 +10,346 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Beranda'),
         backgroundColor: const Color(0xFF006D34), // UIM Green
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Personal greeting
-              const Text(
-                'Halo, Ahmad Rifqi!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
-
-              // User info
-              const Text(
-                'NIM: 210512345 • Teknik Informatika',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              const SizedBox(height: 24),
-
-              // Progress summary card
-              Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with gradient background
+            Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF006D34), Color(0xFF4CAF50)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Selamat Datang,',
+                      style: TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Ahmad Rifqi!',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'NIM: 210512345 • Teknik Informatika',
+                      style: TextStyle(fontSize: 16, color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Upcoming assignments section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Tugas Mendatang',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Navigate to assignments
+                        },
+                        child: const Text(
+                          'Lihat Semua',
+                          style: TextStyle(
+                            color: Color(0xFF006D34),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildAssignmentCard(
+                    'Tugas Pemrograman Mobile',
+                    'Deadline: 25 Des 2025',
+                    30,
+                    Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Announcements section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Pengumuman Terbaru',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildAnnouncementCard(
+                    'Jadwal UTS Semester Ganjil',
+                    'Jadwal UTS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
+                    '2 hari yang lalu',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Progress summary section with improved design
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         'Progres Kelas',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 12),
-
-                      // Course progress items
-                      _buildProgressItem('Pemrograman Mobile', 75),
-                      const SizedBox(height: 12),
-                      _buildProgressItem('Basis Data', 60),
-                      const SizedBox(height: 12),
-                      _buildProgressItem('Jaringan Komputer', 90),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Announcements section
-              const Text(
-                'Pengumuman Terbaru',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-
-              Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Jadwal UTS Semester Ganjil',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      TextButton(
+                        onPressed: () {
+                          // Navigate to classes
+                        },
+                        child: const Text(
+                          'Lihat Semua',
+                          style: TextStyle(
+                            color: Color(0xFF006D34),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Jadwal UTS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '2 hari yang lalu',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
                     ],
                   ),
-                ),
-              ),
-              const SizedBox(height: 24),
+                  const SizedBox(height: 12),
 
-              // Upcoming assignments
-              const Text(
-                'Tugas Mendatang',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-
-              Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Tugas Pemrograman Mobile',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Deadline: 25 Desember 2025, 23:59',
-                        style: TextStyle(fontSize: 14, color: Colors.red),
-                      ),
-                      const SizedBox(height: 8),
-                      const LinearProgressIndicator(
-                        value: 0.3,
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Quick access to classes
-              const Text(
-                'Akses Cepat Kelas Aktif',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-
-              Row(
-                children: [
-                  _buildClassCard('Pemrograman\nMobile', Colors.blue),
-                  const SizedBox(width: 12),
-                  _buildClassCard('Basis Data', Colors.green),
-                  const SizedBox(width: 12),
-                  _buildClassCard('Jaringan\nKomputer', Colors.orange),
+                  // Improved course progress cards
+                  _buildProgressCard('Pemrograman Mobile', 75, Colors.blue),
+                  const SizedBox(height: 12),
+                  _buildProgressCard('Basis Data', 60, Colors.green),
+                  const SizedBox(height: 12),
+                  _buildProgressCard('Jaringan Komputer', 90, Colors.orange),
                 ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+          ],
         ),
       ),
     );
   }
 
-  // Helper widget for progress items
-  Widget _buildProgressItem(String courseName, int progress) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  // Stat card widget
+  // Widget _buildStatCard(String title, String value, IconData icon) {
+  //   return Expanded(
+  //     child: Card(
+  //       color: Colors.white.withValues(alpha: 0.2),
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(12.0),
+  //         child: Column(
+  //           children: [
+  //             Icon(icon, color: Colors.white),
+  //             const SizedBox(height: 8),
+  //             Text(
+  //               value,
+  //               style: const TextStyle(
+  //                 fontSize: 20,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //             Text(
+  //               title,
+  //               style: const TextStyle(fontSize: 12, color: Colors.white70),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Progress card widget
+  Widget _buildProgressCard(String courseName, int progress, Color color) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              courseName,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  courseName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  '$progress%',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              '$progress%',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
+                value: progress / 100,
+                backgroundColor: Colors.grey[300],
+                valueColor: AlwaysStoppedAnimation<Color>(color),
+                minHeight: 8,
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        LinearProgressIndicator(
-          value: progress / 100,
-          backgroundColor: Colors.grey[300],
-          valueColor: const AlwaysStoppedAnimation<Color>(
-            Color(0xFF006D34),
-          ), // UIM Green
-        ),
-      ],
+      ),
     );
   }
 
-  // Helper widget for class cards
-  Widget _buildClassCard(String className, Color color) {
-    return Expanded(
-      child: Card(
-        color: color.withOpacity(0.1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: color, width: 1),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Center(
-            child: Text(
-              className,
-              textAlign: TextAlign.center,
+  // Assignment card widget
+  Widget _buildAssignmentCard(
+    String title,
+    String deadline,
+    int progress,
+    Color color,
+  ) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(Icons.assignment, color: color),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              deadline,
               style: TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
                 color: color,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          ),
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
+                value: progress / 100,
+                backgroundColor: Colors.grey[300],
+                valueColor: AlwaysStoppedAnimation<Color>(color),
+                minHeight: 6,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Announcement card widget
+  Widget _buildAnnouncementCard(String title, String content, String time) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF006D34),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  child: const Icon(Icons.campaign, color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              time,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );
