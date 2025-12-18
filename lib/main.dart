@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:apk_uimlms/screens/main_app.dart';
+import 'package:apk_uimlms/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'UIM LMS',
       theme: ThemeData(
         // Using UIM color scheme
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         // Using clean, modern font
         fontFamily: 'Roboto',
       ),
-      home: const MainApp(),
+      home: const LoginScreen(),
     );
   }
 }

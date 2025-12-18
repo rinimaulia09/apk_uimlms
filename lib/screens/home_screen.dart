@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     const Text(
-                      'Ahmad Rifqi!',
+                      'Rini Maulia',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
