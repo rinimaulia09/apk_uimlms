@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apk_uimlms/screens/course_detail_screen.dart';
 
 class MyClassesScreen extends StatelessWidget {
   const MyClassesScreen({super.key});
@@ -79,17 +80,25 @@ class MyClassesScreen extends StatelessWidget {
     String semester,
     int progress,
   ) {
+    // Extract course code and instructor from classInfo
+    final parts = classInfo.split(' / ');
+    final courseCode = parts[0];
+    final instructor = parts.length > 1 ? parts[1] : 'Dosen tidak tersedia';
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: () {
-          // Navigate to class detail page
-          // For now, show a simple snackbar
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Navigasi ke detail kelas: $courseName'),
-              backgroundColor: const Color(0xFF006D34),
+          // Navigate to course detail page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CourseDetailScreen(
+                courseName: courseName,
+                courseCode: courseCode,
+                instructor: instructor,
+              ),
             ),
           );
         },
