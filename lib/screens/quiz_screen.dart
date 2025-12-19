@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class QuizScreen extends StatefulWidget {
   final String quizTitle;
   final String courseName;
-  
+
   const QuizScreen({
     super.key,
     required this.quizTitle,
@@ -17,11 +17,11 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   late AnimationController _timerController;
   int _currentQuestionIndex = 0;
-  int _timeLeft = 1800; // 30 minutes in seconds
+  final int _timeLeft = 1800; // 30 minutes in seconds
   bool _isQuizFinished = false;
   double _score = 0.0;
   bool _isSubmitted = false;
-  
+
   // Sample quiz data
   final List<Map<String, dynamic>> _questions = [
     {
@@ -75,9 +75,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       'correctAnswer': 1,
     },
   ];
-  
+
   // Store user answers
-  List<int?> _userAnswers = List.filled(5, null);
+  final List<int?> _userAnswers = List.filled(5, null);
 
   @override
   void initState() {
@@ -86,7 +86,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       duration: Duration(seconds: _timeLeft),
       vsync: this,
     );
-    
+
     // Start the timer
     _startTimer();
   }
@@ -125,56 +125,61 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   void _submitQuiz() {
     if (_isSubmitted) return;
-    
+
     // Calculate score
     int correctAnswers = 0;
     for (int i = 0; i < _questions.length; i++) {
-      if (_userAnswers[i] == _questions[i]['correctAnswer']) {
+      if (_userAnswers[i] == _questions[i]['correctAnswer'] as int?) {
         correctAnswers++;
       }
     }
-    
+
     setState(() {
       _score = (correctAnswers / _questions.length) * 100;
       _isSubmitted = true;
       _isQuizFinished = true;
     });
-    
+
     // Stop the timer
     _timerController.stop();
   }
 
-  void _reviewAnswers() {
-    setState(() {
-      _isQuizFinished = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: _isSubmitted,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (didPop) return;
+
         if (_isSubmitted) {
-          return true;
+          return;
         }
-        
-        return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Keluar dari Kuis'),
-            content: const Text('Apakah Anda yakin ingin keluar? Jawaban Anda tidak akan disimpan.'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Batal'),
+
+        final bool shouldPop =
+            await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Keluar dari Kuis'),
+                content: const Text(
+                  'Apakah Anda yakin ingin keluar? Jawaban Anda tidak akan disimpan.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('Batal'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('Keluar'),
+                  ),
+                ],
               ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Keluar'),
-              ),
-            ],
-          ),
-        )) ?? false;
+            ) ??
+            false;
+
+        if (context.mounted && shouldPop) {
+          Navigator.pop(context);
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -192,14 +197,18 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   context: context,
                   builder: (context) => AlertDialog(
                     title: const Text('Keluar dari Kuis'),
-                    content: const Text('Apakah Anda yakin ingin keluar? Jawaban Anda tidak akan disimpan.'),
+                    content: const Text(
+                      'Apakah Anda yakin ingin keluar? Jawaban Anda tidak akan disimpan.',
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
                         child: const Text('Batal'),
                       ),
                       TextButton(
-                        onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                        onPressed: () => Navigator.of(
+                          context,
+                        ).popUntil((route) => route.isFirst),
                         child: const Text('Keluar'),
                       ),
                     ],
@@ -228,9 +237,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               ),
           ],
         ),
-        body: _isQuizFinished
-            ? _buildResultScreen()
-            : _buildQuizScreen(),
+        body: _isQuizFinished ? _buildResultScreen() : _buildQuizScreen(),
       ),
     );
   }
@@ -261,7 +268,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Question text
                   Card(
                     elevation: 2,
@@ -280,7 +287,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Options
                   Column(
                     children: List.generate(
@@ -296,7 +303,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             ),
           ),
         ),
-        
+
         // Navigation and submit button
         Container(
           padding: const EdgeInsets.all(16.0),
@@ -341,7 +348,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Navigation buttons
               Row(
                 children: [
@@ -370,8 +377,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  if (_currentQuestionIndex > 0)
-                    const SizedBox(width: 12),
+                  if (_currentQuestionIndex > 0) const SizedBox(width: 12),
                   if (_currentQuestionIndex < _questions.length - 1)
                     Expanded(
                       flex: 2,
@@ -402,11 +408,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     Expanded(
                       flex: 2,
                       child: ElevatedButton(
-                        onPressed: _userAnswers.every((answer) => answer != null)
+                        onPressed:
+                            _userAnswers.every((answer) => answer != null)
                             ? _submitQuiz
                             : null,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _userAnswers.every((answer) => answer != null)
+                          backgroundColor:
+                              _userAnswers.every((answer) => answer != null)
                               ? const Color(0xFF006D34)
                               : Colors.grey,
                           padding: const EdgeInsets.all(16),
@@ -435,7 +443,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   Widget _buildOption(int index, String option) {
     bool isSelected = _userAnswers[_currentQuestionIndex] == index;
-    
+
     return Card(
       elevation: 1,
       margin: const EdgeInsets.only(bottom: 12),
@@ -457,7 +465,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 width: 30,
                 height: 30,
                 decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF006D34) : Colors.grey[300],
+                  color: isSelected
+                      ? const Color(0xFF006D34)
+                      : Colors.grey[300],
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(
@@ -476,15 +486,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   option,
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                    fontWeight: isSelected
+                        ? FontWeight.w500
+                        : FontWeight.normal,
                   ),
                 ),
               ),
-              if (isSelected)
-                const Icon(
-                  Icons.check,
-                  color: Color(0xFF006D34),
-                ),
+              if (isSelected) const Icon(Icons.check, color: Color(0xFF006D34)),
             ],
           ),
         ),
@@ -494,7 +502,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   Widget _buildResultScreen() {
     bool isPassed = _score >= 70;
-    
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -538,7 +546,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Quiz statistics
             Card(
               elevation: 2,
@@ -559,37 +567,42 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                     const SizedBox(height: 16),
                     _buildStatisticRow('Total Soal', '${_questions.length}'),
-                    _buildStatisticRow('Jawaban Benar', 
-                      '${_userAnswers.where((answer) => answer != null && _questions[_userAnswers.indexOf(answer)]['correctAnswer'] == answer).length}'),
-                    _buildStatisticRow('Waktu Pengerjaan', _formatTime(1800 - _timeLeft)),
-                    _buildStatisticRow('Status', 
+                    _buildStatisticRow(
+                      'Jawaban Benar',
+                      '${_userAnswers.where((answer) => answer != null && _questions[_userAnswers.indexOf(answer)]['correctAnswer'] == answer).length}',
+                    ),
+                    _buildStatisticRow(
+                      'Waktu Pengerjaan',
+                      _formatTime(1800 - _timeLeft),
+                    ),
+                    _buildStatisticRow(
+                      'Status',
                       isPassed ? 'Lulus' : 'Tidak Lulus',
                       isHighlighted: true,
-                      isPositive: isPassed),
+                      isPositive: isPassed,
+                    ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Review section
             const Text(
               'Review Jawaban',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            
+
             // Questions review
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _questions.length,
               itemBuilder: (context, index) {
-                bool isCorrect = _userAnswers[index] == _questions[index]['correctAnswer'];
-                
+                bool isCorrect =
+                    _userAnswers[index] == _questions[index]['correctAnswer'];
+
                 return Card(
                   elevation: 2,
                   margin: const EdgeInsets.only(bottom: 12),
@@ -649,10 +662,8 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Jawaban Benar: ${String.fromCharCode(65 + _questions[index]['correctAnswer'])}',
-                          style: const TextStyle(
-                            color: Colors.green,
-                          ),
+                          'Jawaban Benar: ${String.fromCharCode(65 + (_questions[index]['correctAnswer'] as int))}',
+                          style: const TextStyle(color: Colors.green),
                         ),
                       ],
                     ),
@@ -660,9 +671,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 );
               },
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Action buttons
             SizedBox(
               width: double.infinity,
@@ -693,26 +704,26 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildStatisticRow(String label, String value, {bool isHighlighted = false, bool isPositive = false}) {
+  Widget _buildStatisticRow(
+    String label,
+    String value, {
+    bool isHighlighted = false,
+    bool isPositive = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
+          Text(label, style: const TextStyle(fontSize: 16)),
           Text(
             value,
             style: TextStyle(
               fontSize: 16,
               fontWeight: isHighlighted ? FontWeight.bold : FontWeight.normal,
-              color: isHighlighted 
-                ? (isPositive ? Colors.green : Colors.red) 
-                : Colors.black,
+              color: isHighlighted
+                  ? (isPositive ? Colors.green : Colors.red)
+                  : Colors.black,
             ),
           ),
         ],

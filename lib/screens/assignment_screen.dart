@@ -17,8 +17,8 @@ class AssignmentScreen extends StatefulWidget {
 class _AssignmentScreenState extends State<AssignmentScreen> {
   bool _isSubmitted = false;
   String _submissionStatus = 'Belum Dikumpulkan';
-  String _gradingStatus = 'Belum Dinilai';
-  List<String> _uploadedFiles = [];
+  final String _gradingStatus = 'Belum Dinilai';
+  final List<String> _uploadedFiles = [];
 
   @override
   Widget build(BuildContext context) {

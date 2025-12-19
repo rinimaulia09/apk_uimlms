@@ -323,10 +323,8 @@ class CourseDetailScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => QuizScreen(
-                quizTitle: title,
-                courseName: courseName,
-              ),
+              builder: (context) =>
+                  QuizScreen(quizTitle: title, courseName: courseName),
             ),
           );
         },
