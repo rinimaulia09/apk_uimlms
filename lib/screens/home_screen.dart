@@ -168,37 +168,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Stat card widget
-  // Widget _buildStatCard(String title, String value, IconData icon) {
-  //   return Expanded(
-  //     child: Card(
-  //       color: Colors.white.withValues(alpha: 0.2),
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(12.0),
-  //         child: Column(
-  //           children: [
-  //             Icon(icon, color: Colors.white),
-  //             const SizedBox(height: 8),
-  //             Text(
-  //               value,
-  //               style: const TextStyle(
-  //                 fontSize: 20,
-  //                 fontWeight: FontWeight.bold,
-  //                 color: Colors.white,
-  //               ),
-  //             ),
-  //             Text(
-  //               title,
-  //               style: const TextStyle(fontSize: 12, color: Colors.white70),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   // Progress card widget
   Widget _buildProgressCard(String courseName, int progress, Color color) {
     return Card(

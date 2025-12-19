@@ -321,6 +321,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Navigate to main app after delay
     Future.delayed(const Duration(seconds: 2), () {
+      // Check if the context is still mounted before navigating
+      if (!context.mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainApp()),

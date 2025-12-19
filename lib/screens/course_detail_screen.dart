@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apk_uimlms/screens/learning_materials_screen.dart';
 
 class CourseDetailScreen extends StatelessWidget {
   final String courseName;
@@ -92,10 +93,10 @@ class CourseDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     'Mata kuliah ini membahas konsep dasar desain antarmuka pengguna (User Interface Design) dengan pendekatan praktis dalam pengembangan aplikasi mobile dan web. Mahasiswa akan mempelajari prinsip-prinsip desain yang efektif, interaksi pengguna, dan metode pengujian antarmuka.',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -180,12 +181,16 @@ class CourseDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 _buildMaterialItem(
+                  context,
+                  'Pengantar UI Design',
                   'Slide Pertemuan $meetingNumber.pdf',
                   Icons.picture_as_pdf,
                   Colors.red,
                 ),
                 const SizedBox(height: 8),
                 _buildMaterialItem(
+                  context,
+                  'Referensi Desain Antarmuka',
                   'Referensi Tambahan',
                   Icons.link,
                   Colors.blue,
@@ -220,7 +225,13 @@ class CourseDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMaterialItem(String title, IconData icon, Color color) {
+  Widget _buildMaterialItem(
+    BuildContext context,
+    String materialTitle,
+    String title,
+    IconData icon,
+    Color color,
+  ) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -234,9 +245,18 @@ class CourseDetailScreen extends StatelessWidget {
           child: Icon(icon, color: color),
         ),
         title: Text(title),
-        trailing: const Icon(Icons.download),
+        trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Handle material download/view
+          // Navigate to learning materials screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LearningMaterialsScreen(
+                materialTitle: materialTitle,
+                courseName: courseName,
+              ),
+            ),
+          );
         },
       ),
     );
