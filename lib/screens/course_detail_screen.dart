@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:apk_uimlms/screens/learning_materials_screen.dart';
+import 'package:apk_uimlms/screens/assignment_screen.dart';
+import 'package:apk_uimlms/screens/quiz_screen.dart';
 
 class CourseDetailScreen extends StatelessWidget {
   final String courseName;
@@ -203,6 +205,7 @@ class CourseDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 _buildAssignmentItem(
+                  context,
                   'Tugas $meetingNumber: Latihan Desain',
                   'Deadline: 30 Des 2025',
                 ),
@@ -214,6 +217,7 @@ class CourseDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 _buildQuizItem(
+                  context,
                   'Kuis $meetingNumber: Konsep Dasar',
                   '10 soal • 30 menit',
                 ),
@@ -262,7 +266,11 @@ class CourseDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAssignmentItem(String title, String deadline) {
+  Widget _buildAssignmentItem(
+    BuildContext context,
+    String title,
+    String deadline,
+  ) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -279,13 +287,22 @@ class CourseDetailScreen extends StatelessWidget {
         subtitle: Text(deadline, style: const TextStyle(color: Colors.red)),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Handle assignment view
+          // Navigate to assignment screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AssignmentScreen(
+                assignmentTitle: title,
+                courseName: courseName,
+              ),
+            ),
+          );
         },
       ),
     );
   }
 
-  Widget _buildQuizItem(String title, String details) {
+  Widget _buildQuizItem(BuildContext context, String title, String details) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -302,7 +319,16 @@ class CourseDetailScreen extends StatelessWidget {
         subtitle: Text(details),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Handle quiz start
+          // Navigate to quiz screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuizScreen(
+                quizTitle: title,
+                courseName: courseName,
+              ),
+            ),
+          );
         },
       ),
     );
