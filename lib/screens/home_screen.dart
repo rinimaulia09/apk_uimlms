@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apk_uimlms/screens/my_classes_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -73,7 +74,15 @@ class HomeScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Navigate to assignments
+                          // TODO: Navigate to assignments page when implemented
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Navigasi ke halaman tugas akan segera tersedia',
+                              ),
+                              backgroundColor: Color(0xFF006D34),
+                            ),
+                          );
                         },
                         child: const Text(
                           'Lihat Semua',
@@ -138,7 +147,15 @@ class HomeScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Navigate to classes
+                          // Navigate to My Classes tab
+                          // We need to communicate with the parent MainApp to change tab
+                          // For now, we'll navigate to the MyClassesScreen directly
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MyClassesScreen(),
+                            ),
+                          );
                         },
                         child: const Text(
                           'Lihat Semua',
