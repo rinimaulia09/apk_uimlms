@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:apk_uimlms/screens/my_classes_screen.dart';
 import 'package:apk_uimlms/screens/profile_screen.dart';
 import 'package:apk_uimlms/screens/task_screen.dart';
+import 'package:apk_uimlms/screens/schedule_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -150,8 +151,18 @@ class HomeScreen extends StatelessWidget {
 
                   _buildAnnouncementCard(
                     'Jadwal UAS Semester Ganjil',
-                    'Jadwal UAS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
+                    'Jadwal UAS telah diumumkan. Silakan cek jadwal Anda.',
                     _formatTimeAgo(2),
+                    onTap: () {
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScheduleScreen(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -358,48 +369,56 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Announcement card widget
-  Widget _buildAnnouncementCard(String title, String content, String time) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF006D34),
-                    borderRadius: BorderRadius.circular(8),
+  Widget _buildAnnouncementCard(
+    String title,
+    String content,
+    String time, {
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF006D34),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.campaign, color: Colors.white),
                   ),
-                  child: const Icon(Icons.campaign, color: Colors.white),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              time,
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                content,
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                time,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );
