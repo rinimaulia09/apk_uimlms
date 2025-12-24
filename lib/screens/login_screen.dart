@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Email Field
                         const Text(
-                          'Email 365',
+                          'Email',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            hintText: 'akun_igracias@uim.ac.id',
+                            hintText: 'Masukkan email anda',
                             prefixIcon: const Icon(Icons.email),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
-                            hintText: 'Masukkan password Anda',
+                            hintText: 'Masukkan password anda',
                             prefixIcon: const Icon(Icons.lock),
                             suffixIcon: IconButton(
                               icon: Icon(

@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'NIM: 210512345 • Teknik Informatika',
+                      'NIM: 2022020100061 • Teknik Informatika',
                       style: TextStyle(fontSize: 16, color: Colors.white70),
                     ),
                   ],
@@ -154,8 +154,8 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   _buildAnnouncementCard(
-                    'Jadwal UTS Semester Ganjil',
-                    'Jadwal UTS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
+                    'Jadwal UAS Semester Ganjil',
+                    'Jadwal UAS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
                     _formatTimeAgo(2),
                   ),
                 ],

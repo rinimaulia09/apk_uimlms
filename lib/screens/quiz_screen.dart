@@ -23,65 +23,14 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   bool _isSubmitted = false;
 
   // Sample quiz data
-  final List<Map<String, dynamic>> _questions = [
-    {
-      'question': 'Apa prinsip utama dalam desain antarmuka pengguna?',
-      'options': [
-        'Warna cerah',
-        'Kemudahan penggunaan',
-        'Animasi berlebihan',
-        'Font yang rumit',
-      ],
-      'correctAnswer': 1,
-    },
-    {
-      'question': 'Apa fungsi dari hierarki visual dalam desain UI?',
-      'options': [
-        'Membuat desain lebih rumit',
-        'Menyusun elemen berdasarkan tingkat kepentingan',
-        'Mengurangi jumlah elemen',
-        'Menambahkan lebih banyak warna',
-      ],
-      'correctAnswer': 1,
-    },
-    {
-      'question': 'Apa yang dimaksud dengan affordance dalam desain UI?',
-      'options': [
-        'Kemampuan objek untuk memberi petunjuk cara penggunaannya',
-        'Penggunaan warna kontras',
-        'Pengaturan ukuran font',
-        'Penempatan elemen secara acak',
-      ],
-      'correctAnswer': 0,
-    },
-    {
-      'question': 'Apa tujuan dari prototyping dalam proses desain?',
-      'options': [
-        'Meningkatkan biaya proyek',
-        'Menguji ide sebelum implementasi penuh',
-        'Membuat dokumentasi desain',
-        'Menunda proses pengembangan',
-      ],
-      'correctAnswer': 1,
-    },
-    {
-      'question': 'Apa yang menjadi fokus utama dalam desain responsif?',
-      'options': [
-        'Warna yang digunakan',
-        'Konsistensi di berbagai ukuran layar',
-        'Jumlah animasi',
-        'Kompleksitas navigasi',
-      ],
-      'correctAnswer': 1,
-    },
-  ];
-
-  // Store user answers
-  final List<int?> _userAnswers = List.filled(5, null);
+  late List<Map<String, dynamic>> _questions;
+  late List<int?> _userAnswers;
 
   @override
   void initState() {
     super.initState();
+    _questions = _getQuestionsForCourse(widget.courseName);
+    _userAnswers = List.filled(_questions.length, null);
     _timerController = AnimationController(
       duration: Duration(seconds: _timeLeft),
       vsync: this,
@@ -89,6 +38,195 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
     // Start the timer
     _startTimer();
+  }
+
+  List<Map<String, dynamic>> _getQuestionsForCourse(String courseName) {
+    switch (courseName) {
+      case 'Pemrograman Mobile':
+        return [
+          {
+            'question':
+                'Apa framework yang digunakan untuk pengembangan aplikasi mobile cross-platform?',
+            'options': ['React Native', 'Flutter', 'Xamarin', 'Ionic'],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa bahasa pemrograman yang digunakan dalam Flutter?',
+            'options': ['Java', 'Kotlin', 'Dart', 'Swift'],
+            'correctAnswer': 2,
+          },
+          {
+            'question': 'Apa widget dasar untuk layout dalam Flutter?',
+            'options': ['View', 'Container', 'Div', 'Layout'],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa yang dimaksud dengan Stateful Widget?',
+            'options': [
+              'Widget yang tidak berubah',
+              'Widget yang bisa berubah sesuai data',
+              'Widget untuk layout',
+              'Widget untuk tampilan dasar',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa fungsi dari pubspec.yaml dalam Flutter?',
+            'options': [
+              'Menyimpan kode program',
+              'Mengatur dependensi dan konfigurasi',
+              'Menyimpan asset',
+              'Menyimpan data lokal',
+            ],
+            'correctAnswer': 1,
+          },
+        ];
+      case 'Basis Data':
+        return [
+          {
+            'question': 'Apa kepanjangan dari SQL?',
+            'options': [
+              'Structured Query Language',
+              'Simple Query Language',
+              'Standard Query Language',
+              'Sequential Query Language',
+            ],
+            'correctAnswer': 0,
+          },
+          {
+            'question': 'Apa yang dimaksud dengan primary key?',
+            'options': [
+              'Kunci untuk menghubungkan tabel',
+              'Kunci unik untuk identifikasi record',
+              'Kunci untuk enkripsi data',
+              'Kunci untuk mengurutkan data',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa fungsi dari perintah SELECT dalam SQL?',
+            'options': [
+              'Menyisipkan data',
+              'Menghapus data',
+              'Memperbarui data',
+              'Mengambil data',
+            ],
+            'correctAnswer': 3,
+          },
+          {
+            'question': 'Apa yang dimaksud dengan relasi dalam basis data?',
+            'options': [
+              'Hubungan antar tabel',
+              'Struktur tabel',
+              'Tipe data',
+              'Indeks tabel',
+            ],
+            'correctAnswer': 0,
+          },
+          {
+            'question': 'Apa perintah SQL untuk membuat tabel?',
+            'options': [
+              'CREATE TABLE',
+              'MAKE TABLE',
+              'NEW TABLE',
+              'BUILD TABLE',
+            ],
+            'correctAnswer': 0,
+          },
+        ];
+      case 'Jaringan Komputer':
+        return [
+          {
+            'question': 'Berapa lapisan dalam model OSI?',
+            'options': ['5 lapisan', '6 lapisan', '7 lapisan', '8 lapisan'],
+            'correctAnswer': 2,
+          },
+          {
+            'question': 'Apa fungsi dari lapisan Physical dalam model OSI?',
+            'options': [
+              'Mengatur routing',
+              'Menangani transmisi bit fisik',
+              'Mengelola sesi',
+              'Menyediakan antarmuka pengguna',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa protokol yang digunakan untuk alamat IP versi 4?',
+            'options': ['TCP', 'UDP', 'HTTP', 'IP'],
+            'correctAnswer': 3,
+          },
+          {
+            'question': 'Apa yang dimaksud dengan subnet mask?',
+            'options': [
+              'Alamat unik perangkat',
+              'Alamat jaringan',
+              'Pembagi antara network dan host',
+              'Protokol pengalamatan',
+            ],
+            'correctAnswer': 2,
+          },
+          {
+            'question': 'Port berapa yang digunakan oleh protokol HTTP?',
+            'options': ['21', '25', '80', '443'],
+            'correctAnswer': 2,
+          },
+        ];
+      default:
+        // Default questions for any other course
+        return [
+          {
+            'question': 'Apa prinsip utama dalam desain antarmuka pengguna?',
+            'options': [
+              'Warna cerah',
+              'Kemudahan penggunaan',
+              'Animasi berlebihan',
+              'Font yang rumit',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa fungsi dari hierarki visual dalam desain UI?',
+            'options': [
+              'Membuat desain lebih rumit',
+              'Menyusun elemen berdasarkan tingkat kepentingan',
+              'Mengurangi jumlah elemen',
+              'Menambahkan lebih banyak warna',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa yang dimaksud dengan affordance dalam desain UI?',
+            'options': [
+              'Kemampuan objek untuk memberi petunjuk cara penggunaannya',
+              'Penggunaan warna kontras',
+              'Pengaturan ukuran font',
+              'Penempatan elemen secara acak',
+            ],
+            'correctAnswer': 0,
+          },
+          {
+            'question': 'Apa tujuan dari prototyping dalam proses desain?',
+            'options': [
+              'Meningkatkan biaya proyek',
+              'Menguji ide sebelum implementasi penuh',
+              'Membuat dokumentasi desain',
+              'Menunda proses pengembangan',
+            ],
+            'correctAnswer': 1,
+          },
+          {
+            'question': 'Apa yang menjadi fokus utama dalam desain responsif?',
+            'options': [
+              'Warna yang digunakan',
+              'Konsistensi di berbagai ukuran layar',
+              'Jumlah animasi',
+              'Kompleksitas navigasi',
+            ],
+            'correctAnswer': 1,
+          },
+        ];
+    }
   }
 
   @override
