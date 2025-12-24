@@ -7,6 +7,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Beranda'),
@@ -130,7 +132,7 @@ class HomeScreen extends StatelessWidget {
 
                   _buildAssignmentCard(
                     'Tugas Pemrograman Mobile',
-                    'Deadline: 25 Des 2025',
+                    'Deadline: ${now.day} ${_getMonthName(now.month)} ${now.year}',
                     30,
                     Colors.red,
                   ),
@@ -154,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                   _buildAnnouncementCard(
                     'Jadwal UTS Semester Ganjil',
                     'Jadwal UTS telah diumumkan. Silakan cek jadwal Anda di SIM Akademik.',
-                    '2 hari yang lalu',
+                    _formatTimeAgo(2),
                   ),
                 ],
               ),
@@ -217,6 +219,35 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatTimeAgo(int days) {
+    if (days == 0) {
+      return 'Hari ini';
+    } else if (days == 1) {
+      return 'Kemarin';
+    } else {
+      return '$days hari yang lalu';
+    }
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      '',
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    return months[month];
   }
 
   // Progress card widget

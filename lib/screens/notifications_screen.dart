@@ -5,6 +5,9 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Generate dynamic dates for notifications
+    final now = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifikasi & Pengumuman'),
@@ -26,16 +29,16 @@ class NotificationsScreen extends StatelessWidget {
                 children: [
                   _buildNotificationCard(
                     'Konfirmasi Pengumpulan Tugas',
-                    'Tugas "Laporan Praktikum Basis Data" berhasil dikumpulkan pada 15 Des 2025, 14:30',
-                    '2 jam yang lalu',
+                    'Tugas "Laporan Praktikum Basis Data" berhasil dikumpulkan pada ${_formatDate(now.subtract(const Duration(hours: 2)))}',
+                    _formatTimeAgo(2),
                     Icons.assignment_turned_in,
                     Colors.green,
                   ),
                   const SizedBox(height: 12),
                   _buildNotificationCard(
                     'Maintenance Sistem',
-                    'Sistem akan dinonaktifkan untuk maintenance rutin pada 20 Des 2025, 00:00 - 04:00 WIB',
-                    '1 hari yang lalu',
+                    'Sistem akan dinonaktifkan untuk maintenance rutin pada ${_formatDate(now.add(const Duration(days: 1)))}, 00:00 - 04:00 WIB',
+                    _formatTimeAgo(1),
                     Icons.build,
                     Colors.orange,
                   ),
@@ -43,7 +46,7 @@ class NotificationsScreen extends StatelessWidget {
                   _buildNotificationCard(
                     'Pengumuman Akademik',
                     'Jadwal UAS semester ganjil telah diumumkan. Silakan cek jadwal di SIM Akademik',
-                    '2 hari yang lalu',
+                    _formatTimeAgo(2),
                     Icons.campaign,
                     Colors.blue,
                   ),
@@ -51,7 +54,7 @@ class NotificationsScreen extends StatelessWidget {
                   _buildNotificationCard(
                     'Konfirmasi Absensi',
                     'Absensi mata kuliah Pemrograman Mobile telah dicatat untuk pertemuan hari ini',
-                    '3 hari yang lalu',
+                    _formatTimeAgo(3),
                     Icons.check_circle,
                     Colors.green,
                   ),
@@ -59,7 +62,7 @@ class NotificationsScreen extends StatelessWidget {
                   _buildNotificationCard(
                     'Pengumuman CeLOE',
                     'Tutorial penggunaan fitur baru di CeLOE tersedia di halaman bantuan',
-                    '5 hari yang lalu',
+                    _formatTimeAgo(5),
                     Icons.info,
                     Colors.blue,
                   ),
@@ -67,7 +70,7 @@ class NotificationsScreen extends StatelessWidget {
                   _buildNotificationCard(
                     'Batas Pengumpulan Tugas',
                     'Ingat! Batas pengumpulan tugas Pemrograman Mobile adalah besok pukul 23:59',
-                    '1 minggu yang lalu',
+                    _formatTimeAgo(7),
                     Icons.warning,
                     Colors.red,
                   ),
@@ -78,6 +81,42 @@ class NotificationsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day} ${_getMonthName(date.month)} ${date.year}, ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTimeAgo(int hours) {
+    if (hours < 24) {
+      return '$hours jam yang lalu';
+    } else {
+      int days = (hours / 24).floor();
+      if (days == 1) {
+        return '1 hari yang lalu';
+      } else {
+        return '$days hari yang lalu';
+      }
+    }
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      '',
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    return months[month];
   }
 
   Widget _buildNotificationCard(

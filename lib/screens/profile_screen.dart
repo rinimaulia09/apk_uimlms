@@ -21,10 +21,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String lastAccess = '18 Desember 2025, 14:20';
   int loginCount = 42;
 
+  late String _firstAccessFormatted;
+  late String _lastAccessFormatted;
+
   @override
   void initState() {
     super.initState();
     _nameController.text = fullName;
+    _firstAccessFormatted = _formatDateTime(
+      DateTime.now().subtract(const Duration(days: 30)),
+    );
+    _lastAccessFormatted = _formatDateTime(DateTime.now());
   }
 
   @override
@@ -126,9 +133,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 12),
               _buildInfoCard('Fakultas', fakultas, Icons.account_balance),
               const SizedBox(height: 12),
-              _buildInfoCard('Akses Pertama', firstAccess, Icons.access_time),
+              _buildInfoCard(
+                'Akses Pertama',
+                _firstAccessFormatted,
+                Icons.access_time,
+              ),
               const SizedBox(height: 12),
-              _buildInfoCard('Akses Terakhir', lastAccess, Icons.update),
+              _buildInfoCard(
+                'Akses Terakhir',
+                _lastAccessFormatted,
+                Icons.update,
+              ),
               const SizedBox(height: 12),
               _buildInfoCard(
                 'Aktivitas Login',
@@ -234,5 +249,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    return '${dateTime.day} ${_getMonthName(dateTime.month)} ${dateTime.year}, ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      '',
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+    return months[month];
   }
 }
