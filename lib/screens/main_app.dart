@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:apk_uimlms/screens/home_screen.dart';
 import 'package:apk_uimlms/screens/my_classes_screen.dart';
 import 'package:apk_uimlms/screens/notifications_screen.dart';
-import 'package:apk_uimlms/screens/profile_screen.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -18,7 +17,6 @@ class _MainAppState extends State<MainApp> {
     const HomeScreen(),
     const MyClassesScreen(),
     const NotificationsScreen(),
-    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -53,11 +51,6 @@ class _MainAppState extends State<MainApp> {
             icon: Icon(Icons.notifications_outlined),
             activeIcon: Icon(Icons.notifications),
             label: 'Notifikasi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profil',
           ),
         ],
       ),

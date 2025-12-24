@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apk_uimlms/screens/my_classes_screen.dart';
+import 'package:apk_uimlms/screens/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,38 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF006D34), // UIM Green
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          // Profile navigation icon and text
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  );
+                }
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.person, color: Colors.white),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Profil',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -74,7 +107,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          // TODO: Navigate to assignments page when implemented
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
@@ -150,12 +182,14 @@ class HomeScreen extends StatelessWidget {
                           // Navigate to My Classes tab
                           // We need to communicate with the parent MainApp to change tab
                           // For now, we'll navigate to the MyClassesScreen directly
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MyClassesScreen(),
-                            ),
-                          );
+                          if (context.mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyClassesScreen(),
+                              ),
+                            );
+                          }
                         },
                         child: const Text(
                           'Lihat Semua',
